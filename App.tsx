@@ -41,7 +41,7 @@ const App: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // --- FORMSPARK SUBMISSION LOGIC ---
+  // --- FIXED FORMSPARK LOGIC ---
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
@@ -49,7 +49,8 @@ const App: React.FC = () => {
     setStatus('submitting');
 
     try {
-      const response = await fetch('https://submit-form.com/gsit32ht1x', {
+      // Corrected ID from your screenshot: gsit32ht1ex
+      const response = await fetch('https://submit-form.com/gsit32ht1ex', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ const App: React.FC = () => {
         },
         body: JSON.stringify({
           email: email,
-          message: "New Waitlist Application for Pilot 2026",
+          message: "Pilot 2026 Interest",
         }),
       });
 
@@ -97,94 +98,72 @@ const App: React.FC = () => {
         <h1 className="text-8xl md:text-[10rem] font-black tracking-[-0.06em] leading-[0.85] mb-12">
           Safety without <br /><span style={{ color: BRAND_GREEN }}>compromise.</span>
         </h1>
-        <p className="text-2xl text-slate-500 max-w-3xl mx-auto mb-16 font-medium leading-relaxed italic italic">"Empowering independence through proactive AI protection."</p>
+        <p className="text-2xl text-slate-500 max-w-3xl mx-auto mb-16 font-medium leading-relaxed italic">"Empowering independence through proactive AI protection."</p>
         <button onClick={() => scrollTo('contact')} className="px-16 py-8 rounded-full font-black text-xl text-white shadow-2xl transition-all hover:brightness-110 active:scale-95" style={{ backgroundColor: BRAND_GREEN }}>Apply for Pilot 2026</button>
       </header>
 
-      {/* THE CHALLENGE SECTION */}
+      {/* THE CHALLENGE */}
       <section id="problem" className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-8 grid lg:grid-cols-2 gap-24 items-center">
           <div>
-            <h2 className="text-7xl font-black mb-12 tracking-tighter leading-tight text-slate-900">The Wandering <br/>Challenge</h2>
+            <h2 className="text-7xl font-black mb-12 tracking-tighter leading-tight">The Wandering Challenge</h2>
             <p className="text-2xl text-slate-600 mb-12 leading-relaxed">60% of people with dementia will experience a wandering incident. We provide the technology to prevent it.</p>
             <div className="grid grid-cols-2 gap-8">
-              <div className="p-12 bg-slate-50 rounded-[3rem] border border-slate-100">
+              <div className="p-12 bg-slate-50 rounded-[3rem] border border-slate-100 text-center">
                 <div className="text-7xl font-black mb-4" style={{ color: BRAND_GREEN }}>982k</div>
-                <p className="text-xs font-black uppercase tracking-widest text-slate-400">UK Citizens</p>
+                <p className="text-xs font-black uppercase tracking-widest text-slate-400">UK Citizens Involved</p>
               </div>
-              <div className="p-12 bg-slate-50 rounded-[3rem] border border-slate-100">
+              <div className="p-12 bg-slate-50 rounded-[3rem] border border-slate-100 text-center">
                 <div className="text-7xl font-black mb-4" style={{ color: BRAND_GREEN }}>60%</div>
-                <p className="text-xs font-black uppercase tracking-widest text-slate-400">Incident Risk</p>
+                <p className="text-xs font-black uppercase tracking-widest text-slate-400">Risk Probability</p>
               </div>
             </div>
           </div>
           <div className="rounded-[4rem] overflow-hidden shadow-2xl">
-            <img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&q=80&w=1200" className="w-full h-full object-cover grayscale-[30%]" alt="Dementia Care Technology" />
+            <img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&q=80&w=1200" className="w-full h-full object-cover grayscale-[30%]" alt="Care Tech" />
           </div>
         </div>
       </section>
 
-      {/* H2 SYSTEM SECTION */}
+      {/* SYSTEM SECTION */}
       <section id="h2-system" className="py-40 bg-slate-900 text-white rounded-[5rem] mx-4 md:mx-8">
         <div className="max-w-7xl mx-auto px-8">
-          <div className="text-center mb-24">
-            <h2 className="text-6xl font-black mb-4 tracking-tighter">The H2 System</h2>
-            <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-sm">Hardware Architecture</p>
+          <div className="text-center mb-24 text-white">
+            <h2 className="text-6xl font-black mb-4 tracking-tighter text-white">The H2 System</h2>
+            <p className="text-slate-400 font-bold uppercase tracking-[0.3em] text-sm">Next-Gen Architecture</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="p-16 rounded-[4rem] bg-white/5 border border-white/10 hover:border-white/30 transition-all">
               <IconCam />
-              <h3 className="text-3xl font-bold mt-8 mb-6">Cam Modules</h3>
-              <p className="text-slate-400 text-lg leading-relaxed font-light">Neural-vision sensors that detect 'exit-seeking' behavior patterns using edge-based AI.</p>
+              <h3 className="text-3xl font-bold mt-8 mb-6 text-white">Cam Modules</h3>
+              <p className="text-slate-400 text-lg leading-relaxed font-light">Neural-vision sensors that detect 'exit-seeking' patterns at boundaries using edge AI.</p>
             </div>
             <div className="p-16 rounded-[4rem] bg-white/5 border border-white/30 transition-all" style={{ boxShadow: `0 0 40px ${BRAND_GREEN}15` }}>
               <IconHub />
               <h3 className="text-3xl font-bold mt-8 mb-6" style={{ color: BRAND_GREEN }}>The H2 Hub</h3>
-              <p className="text-slate-400 text-lg leading-relaxed font-light">Localized AI processing. Every frame is kept on-site. Zero cloud exposure. Absolute privacy.</p>
+              <p className="text-slate-400 text-lg leading-relaxed font-light">Local AI brain. Every frame is processed on-site. Zero cloud exposure. Total privacy.</p>
             </div>
             <div className="p-16 rounded-[4rem] bg-white/5 border border-white/10 hover:border-white/30 transition-all">
               <IconTracker />
-              <h3 className="text-3xl font-bold mt-8 mb-6">Smart Tracker</h3>
+              <h3 className="text-3xl font-bold mt-8 mb-6 text-white">Smart Tracker</h3>
               <p className="text-slate-400 text-lg leading-relaxed font-light">Encrypted GPS wearable activated only during verified emergency events for secure recovery.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ROADMAP SECTION */}
-      <section id="2026-pilot" className="py-40 bg-white">
-        <div className="max-w-4xl mx-auto px-8">
-          <h2 className="text-6xl font-black mb-24 text-center tracking-tight">Pilot 2026 Journey</h2>
-          <div className="space-y-8">
-            {[
-              { q: "2024 Q3", m: "Research Phase", d: "Behavioral modeling and exit intent protocols.", c: true },
-              { q: "2025 Q2", m: "Alpha Testing", d: "Local processing optimization and hardware stress tests.", c: false },
-              { q: "2026 Q1", m: "UK Pilot Program", d: "Full deployment to the first 100 private households.", c: false }
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col md:flex-row gap-10 items-center p-12 bg-slate-50 rounded-[4rem] border border-slate-100">
-                <div className="px-10 py-4 rounded-full text-white font-black text-xs whitespace-nowrap" style={{ backgroundColor: item.c ? "#10b981" : BRAND_GREEN }}>{item.q}</div>
-                <div className="text-center md:text-left">
-                  <h3 className="text-3xl font-black mb-2">{item.m}</h3>
-                  <p className="text-slate-500 text-lg font-medium">{item.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CONTACT SECTION (THE JOIN NOW FIX) */}
+      {/* CONTACT SECTION (FIXED FORMSPARK) */}
       <section id="contact" className="py-40 px-8">
         <div className="max-w-6xl mx-auto bg-slate-900 rounded-[6rem] p-24 text-center text-white shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 blur-[120px] opacity-20" style={{ backgroundColor: BRAND_GREEN }}></div>
           
-          <h2 className="text-7xl font-black mb-10 tracking-tighter">
+          <h2 className="text-7xl font-black mb-10 tracking-tighter text-white">
             {status === 'success' ? "Welcome to the Lab." : "Ready to Start?"}
           </h2>
           
           <p className="text-2xl text-slate-400 mb-16 max-w-xl mx-auto leading-relaxed">
             {status === 'success' 
-              ? "Your application for the 2026 Pilot has been successfully received. We will contact you shortly." 
+              ? "Your application for the 2026 Pilot has been received. We will contact you shortly." 
               : status === 'error'
               ? "Something went wrong. Please check your connection and try again."
               : "Secure your place in the future of dementia care."}
@@ -207,20 +186,19 @@ const App: React.FC = () => {
                 className="px-14 py-6 rounded-3xl font-black text-xl hover:opacity-90 transition-all text-white shadow-lg disabled:opacity-50" 
                 style={{ backgroundColor: BRAND_GREEN }}
               >
-                {status === 'submitting' ? "Sending..." : "Join Now"}
+                {status === 'submitting' ? "Transmitting..." : "Join Now"}
               </button>
             </form>
           )}
 
           {status === 'success' && (
             <button onClick={() => setStatus('idle')} className="text-xs font-black uppercase tracking-widest text-white/50 hover:text-white transition-colors underline underline-offset-8">
-              Submit Another Email
+              Submit Another Application
             </button>
           )}
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="py-24 text-center border-t border-slate-100">
         <H2Logo />
         <p className="mt-8 text-[10px] font-black text-slate-300 tracking-[0.5em] uppercase">© 2026 H2 AI LAB. London, United Kingdom.</p>
