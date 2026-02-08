@@ -7,7 +7,6 @@ import {
   MapPin, 
   Lock, 
   Users, 
-  Bell, 
   Camera, 
   Cpu, 
   Search,
@@ -48,7 +47,7 @@ const ROADMAP: RoadmapItem[] = [
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) => (
   <div className="p-12 bg-white rounded-[3rem] shadow-[0_8px_30px_rgba(0,0,0,0.02)] border border-slate-100 hover:shadow-[0_40px_80px_-15px_rgba(150,156,76,0.15)] hover:border-brand-primary/30 transition-all duration-700 group">
     <div className="w-20 h-20 flex items-center justify-center bg-brand-primary/5 rounded-[1.5rem] mb-10 text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all duration-500">
-      {React.cloneElement(icon as React.ReactElement, { className: "w-10 h-10" })}
+      {icon}
     </div>
     <h3 className="text-3xl font-black mb-6 text-slate-900 tracking-tight">{title}</h3>
     <p className="text-brand-accent leading-relaxed font-medium text-xl">{description}</p>
@@ -63,7 +62,6 @@ const App: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Smooth scroll logic with fixed header offset
   const scrollTo = useCallback((href: string) => {
     setIsMenuOpen(false);
     if (href === '#' || href === '/') {
@@ -89,8 +87,7 @@ const App: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
-      // Scroll spy logic
-      const sections = [...NAV_ITEMS.map(i => i.href.slice(1)), 'contact'];
+      const sections = NAV_ITEMS.map(i => i.href.slice(1)).concat(['contact']);
       for (const id of sections) {
         const el = document.getElementById(id);
         if (el) {
@@ -120,17 +117,16 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 selection:bg-brand-primary/20 selection:text-brand-primary font-['Inter']">
+    <div className="min-h-screen bg-white text-slate-900 selection:bg-brand-primary/20 selection:text-brand-primary">
       {/* Navbar */}
       <nav className={`fixed top-0 left-0 right-0 z-[200] transition-all duration-700 ${
-        scrolled ? 'bg-white/80 backdrop-blur-2xl shadow-xl shadow-slate-200/20 py-4' : 'bg-transparent py-12'
+        scrolled ? 'bg-white/90 backdrop-blur-2xl shadow-xl py-4' : 'bg-transparent py-12'
       }`}>
         <div className="max-w-7xl mx-auto px-8 flex items-center justify-between">
-          <button onClick={() => scrollTo('#')} className="h-10 md:h-12 hover:scale-105 active:scale-95 transition-transform">
+          <button onClick={() => scrollTo('#')} className="h-10 md:h-12 hover:scale-105 transition-transform flex items-center">
             <H2Logo className="h-full w-auto" />
           </button>
 
-          {/* Desktop Links */}
           <div className="hidden lg:flex items-center gap-2">
             {NAV_ITEMS.map((item) => (
               <button 
@@ -150,15 +146,15 @@ const App: React.FC = () => {
           <div className="flex items-center gap-6">
             <button 
               onClick={() => scrollTo('#contact')}
-              className="hidden sm:block px-10 py-4 bg-brand-primary text-white rounded-full text-sm font-black uppercase tracking-widest hover:bg-brand-dark transition-all shadow-[0_15px_30px_-10px_rgba(150,156,76,0.5)] active:scale-95 hover:-translate-y-1"
+              className="hidden sm:block px-10 py-4 bg-brand-primary text-white rounded-full text-sm font-black uppercase tracking-widest hover:bg-brand-dark transition-all shadow-lg active:scale-95"
             >
               Join Pilot
             </button>
             
-            {/* Mobile Toggle */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden w-12 h-12 flex flex-col items-center justify-center gap-1.5"
+              aria-label="Toggle Menu"
             >
               <div className={`w-6 h-0.5 bg-slate-900 transition-all ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
               <div className={`w-6 h-0.5 bg-slate-900 transition-all ${isMenuOpen ? 'opacity-0' : ''}`} />
@@ -207,7 +203,7 @@ const App: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
             <button 
               onClick={() => scrollTo('#contact')}
-              className="w-full sm:w-auto px-16 py-8 bg-brand-primary text-white rounded-[3rem] font-black text-2xl hover:bg-brand-dark transition-all duration-500 shadow-[0_30px_60px_-15px_rgba(150,156,76,0.4)] hover:-translate-y-2 active:scale-95"
+              className="w-full sm:w-auto px-16 py-8 bg-brand-primary text-white rounded-[3rem] font-black text-2xl hover:bg-brand-dark transition-all duration-500 shadow-xl active:scale-95"
             >
               Apply for Pilot 2026
             </button>
@@ -218,9 +214,8 @@ const App: React.FC = () => {
           </div>
         </div>
         
-        {/* Background Gradients */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 pointer-events-none">
-          <div className="absolute top-20 right-0 w-[1000px] h-[1000px] bg-brand-primary/10 rounded-full blur-[200px] animate-pulse" />
+          <div className="absolute top-20 right-0 w-[1000px] h-[1000px] bg-brand-primary/10 rounded-full blur-[200px]" />
           <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-brand-accent/5 rounded-full blur-[150px]" />
         </div>
       </header>
@@ -236,27 +231,27 @@ const App: React.FC = () => {
               </p>
               
               <div className="grid sm:grid-cols-2 gap-12">
-                <div className="p-16 bg-white rounded-[4rem] shadow-2xl shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 transition-transform duration-500">
-                  <div className="text-8xl font-black text-brand-primary mb-6 tracking-tighter leading-none">982k</div>
+                <div className="p-16 bg-white rounded-[4rem] shadow-xl border border-slate-100">
+                  <div className="text-8xl font-black text-brand-primary mb-6 tracking-tighter">982k</div>
                   <div className="text-sm font-black text-brand-accent uppercase tracking-[0.4em] mb-6">In the UK</div>
-                  <p className="text-slate-600 font-bold text-xl leading-snug">People living with dementia today across the country.</p>
+                  <p className="text-slate-600 font-bold text-xl">People living with dementia today across the country.</p>
                 </div>
-                <div className="p-16 bg-white rounded-[4rem] shadow-2xl shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 transition-transform duration-500">
-                  <div className="text-8xl font-black text-brand-primary mb-6 tracking-tighter leading-none">60%</div>
+                <div className="p-16 bg-white rounded-[4rem] shadow-xl border border-slate-100">
+                  <div className="text-8xl font-black text-brand-primary mb-6 tracking-tighter">60%</div>
                   <div className="text-sm font-black text-brand-accent uppercase tracking-[0.4em] mb-6">Impact</div>
-                  <p className="text-slate-600 font-bold text-xl leading-snug">Will experience at least one wandering incident.</p>
+                  <p className="text-slate-600 font-bold text-xl">Will experience at least one wandering incident.</p>
                 </div>
               </div>
             </div>
             
             <div className="relative">
-              <div className="aspect-[4/5] bg-white rounded-[6rem] overflow-hidden shadow-3xl group transform hover:scale-[1.02] transition-all duration-1000">
+              <div className="aspect-[4/5] bg-white rounded-[6rem] overflow-hidden shadow-2xl">
                 <img 
                   src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&q=80&w=800" 
                   alt="Compassionate Care"
-                  className="w-full h-full object-cover grayscale-[50%] group-hover:grayscale-0 transition-all duration-1000"
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
                 <div className="absolute bottom-16 left-16 right-16 p-16 bg-white/95 backdrop-blur-3xl rounded-[4rem] shadow-2xl border border-white/20">
                   <div className="flex items-center gap-6 mb-10">
                     <div className="w-16 h-16 bg-brand-primary/10 rounded-2xl flex items-center justify-center text-brand-primary">
@@ -274,7 +269,6 @@ const App: React.FC = () => {
 
       {/* Solution */}
       <section id="solution" className="py-52 bg-slate-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(150,156,76,0.1)_0%,_transparent_70%)]" />
         <div className="max-w-7xl mx-auto px-8 relative z-10">
           <div className="text-center mb-40">
             <h2 className="text-7xl md:text-9xl font-black mb-12 tracking-tighter">The H2 System</h2>
@@ -285,13 +279,13 @@ const App: React.FC = () => {
           
           <div className="grid lg:grid-cols-3 gap-16">
             {[
-              { icon: <Camera />, title: "Cam Modules", desc: "Detects intent at exits using virtual tripwires powered by local AI." },
-              { icon: <Cpu />, title: "AI Hub", desc: "The privacy-first local brain. Zero frames transmitted to the cloud." },
-              { icon: <MapPin />, title: "Smart Tracker", desc: "High-fidelity GPS recovery activated only during confirmed incidents." }
+              { icon: <Camera className="w-14 h-14" />, title: "Cam Modules", desc: "Detects intent at exits using virtual tripwires powered by local AI." },
+              { icon: <Cpu className="w-14 h-14" />, title: "AI Hub", desc: "The privacy-first local brain. Zero frames transmitted to the cloud." },
+              { icon: <MapPin className="w-14 h-14" />, title: "Smart Tracker", desc: "High-fidelity GPS recovery activated only during confirmed incidents." }
             ].map((item, i) => (
-              <div key={i} className="p-16 bg-white/[0.02] rounded-[5rem] border border-white/[0.08] hover:border-brand-primary/50 hover:bg-white/[0.05] transition-all duration-700 group text-center">
-                <div className="w-32 h-32 bg-brand-primary/10 rounded-[3.5rem] flex items-center justify-center mb-12 mx-auto group-hover:scale-110 group-hover:bg-brand-primary transition-all duration-500">
-                  {React.cloneElement(item.icon as React.ReactElement, { className: "w-14 h-14 text-brand-primary group-hover:text-white transition-colors" })}
+              <div key={i} className="p-16 bg-white/[0.02] rounded-[5rem] border border-white/[0.08] hover:border-brand-primary/50 transition-all duration-700 group text-center">
+                <div className="w-32 h-32 bg-brand-primary/10 rounded-[3.5rem] flex items-center justify-center mb-12 mx-auto group-hover:bg-brand-primary transition-all duration-500">
+                  <div className="text-brand-primary group-hover:text-white transition-colors">{item.icon}</div>
                 </div>
                 <h3 className="text-4xl font-black mb-8 tracking-tight">{item.title}</h3>
                 <p className="text-slate-400 text-2xl font-medium leading-relaxed">{item.desc}</p>
@@ -310,17 +304,17 @@ const App: React.FC = () => {
           </div>
           <div className="grid lg:grid-cols-3 gap-20">
             <FeatureCard 
-              icon={<Brain />} 
+              icon={<Brain className="w-10 h-10" />} 
               title="Early Warning" 
               description="AI identifies distress or exit-seeking intent before a wandering event occurs, giving you time to respond." 
             />
             <FeatureCard 
-              icon={<MapPin />} 
+              icon={<MapPin className="w-10 h-10" />} 
               title="Rapid Recovery" 
               description="GPS activates only upon confirmed exit, providing real-time location data for a swift and safe return." 
             />
             <FeatureCard 
-              icon={<Users />} 
+              icon={<Users className="w-10 h-10" />} 
               title="Circle of Trust" 
               description="Coordinate alerts with a secure network of family, neighbors, and responders when every minute counts." 
             />
@@ -331,12 +325,8 @@ const App: React.FC = () => {
       {/* Privacy */}
       <section id="privacy" className="py-52 bg-slate-50/50">
         <div className="max-w-7xl mx-auto px-8">
-          <div className="bg-brand-primary rounded-[7rem] p-1.5 shadow-[0_50px_100px_-20px_rgba(150,156,76,0.3)] overflow-hidden group">
-            <div className="bg-white rounded-[6.8rem] p-24 md:p-40 relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-20 opacity-[0.03] pointer-events-none transition-transform duration-[5s] group-hover:rotate-12 group-hover:scale-110">
-                  <Shield className="w-[600px] h-[600px] text-brand-primary" />
-               </div>
-               
+          <div className="bg-brand-primary rounded-[7rem] p-1.5 shadow-2xl overflow-hidden group">
+            <div className="bg-white rounded-[6.8rem] p-24 md:p-40 relative">
                <div className="max-w-5xl relative z-10">
                   <div className="inline-block px-10 py-4 bg-brand-primary/5 rounded-full text-brand-primary text-sm font-black uppercase tracking-[0.5em] mb-16">
                     Security Architecture
@@ -350,20 +340,20 @@ const App: React.FC = () => {
                   
                   <div className="flex flex-wrap gap-24">
                      <div className="flex items-center gap-10">
-                        <div className="w-24 h-24 bg-brand-primary/5 rounded-[2.5rem] flex items-center justify-center text-brand-primary transition-all group-hover:bg-brand-primary group-hover:text-white duration-500">
+                        <div className="w-24 h-24 bg-brand-primary/5 rounded-[2.5rem] flex items-center justify-center text-brand-primary">
                            <Lock className="w-12 h-12" />
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-4xl font-black tracking-tight text-slate-900 solitude leading-none mb-4">Zero Cloud Exposure</span>
+                          <span className="text-4xl font-black tracking-tight text-slate-900 mb-4">Zero Cloud Exposure</span>
                           <span className="text-brand-accent font-bold text-2xl uppercase tracking-widest opacity-60">Local Processing</span>
                         </div>
                      </div>
                      <div className="flex items-center gap-10">
-                        <div className="w-24 h-24 bg-brand-primary/5 rounded-[2.5rem] flex items-center justify-center text-brand-primary transition-all group-hover:bg-brand-primary group-hover:text-white duration-500">
+                        <div className="w-24 h-24 bg-brand-primary/5 rounded-[2.5rem] flex items-center justify-center text-brand-primary">
                            <Eye className="w-12 h-12" />
                         </div>
                         <div className="flex flex-col">
-                          <span className="text-4xl font-black tracking-tight text-slate-900 solitude leading-none mb-4">Identity Anonymity</span>
+                          <span className="text-4xl font-black tracking-tight text-slate-900 mb-4">Identity Anonymity</span>
                           <span className="text-brand-accent font-bold text-2xl uppercase tracking-widest opacity-60">Behavioral Mapping</span>
                         </div>
                      </div>
@@ -383,19 +373,17 @@ const App: React.FC = () => {
           </div>
           
           <div className="relative space-y-48">
-            <div className="absolute left-[47px] md:left-1/2 top-10 bottom-10 w-2 bg-slate-100 -translate-x-1/2 hidden md:block" />
-            
             {ROADMAP.map((item, index) => (
               <div key={index} className={`flex flex-col md:flex-row items-center gap-24 relative ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
                 <div className="w-full md:w-1/2">
-                  <div className={`bg-white p-20 rounded-[5rem] shadow-[0_30px_100px_-20px_rgba(0,0,0,0.08)] border border-slate-100 hover:shadow-3xl transition-all duration-700 hover:-translate-y-4 group ${index % 2 === 0 ? 'md:ml-12' : 'md:mr-12'}`}>
+                  <div className="bg-white p-20 rounded-[5rem] shadow-xl border border-slate-100 hover:-translate-y-4 transition-transform duration-700">
                     <div className="text-lg font-black text-brand-primary uppercase tracking-[0.5em] mb-8">{item.date}</div>
-                    <h3 className="text-5xl font-black mb-10 tracking-tight text-slate-900 group-hover:text-brand-primary transition-colors">{item.milestone}</h3>
+                    <h3 className="text-5xl font-black mb-10 tracking-tight text-slate-900">{item.milestone}</h3>
                     <p className="text-brand-accent text-2xl leading-relaxed font-medium">{item.description}</p>
                   </div>
                 </div>
                 
-                <div className={`absolute left-[47px] md:left-1/2 w-24 h-24 rounded-[3rem] flex items-center justify-center border-[14px] border-white shadow-3xl z-10 transition-all duration-700 -translate-x-1/2 ${
+                <div className={`w-24 h-24 rounded-[3rem] flex items-center justify-center border-[14px] border-white shadow-2xl z-10 ${
                   item.status === 'completed' ? 'bg-emerald-500' : 
                   item.status === 'ongoing' ? 'bg-brand-primary scale-125' : 'bg-slate-300'
                 }`}>
@@ -412,9 +400,7 @@ const App: React.FC = () => {
       {/* Waitlist Form */}
       <section id="contact" className="py-52 bg-white scroll-mt-32">
         <div className="max-w-6xl mx-auto px-8">
-          <div className="bg-slate-900 rounded-[6rem] p-24 lg:p-40 text-center relative overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)]">
-            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,_rgba(150,156,76,0.2)_0%,_transparent_60%)] pointer-events-none" />
-            
+          <div className="bg-slate-900 rounded-[6rem] p-24 lg:p-40 text-center relative overflow-hidden">
             <div className="relative z-10">
               <h2 className="text-7xl md:text-[8rem] font-black text-white mb-16 tracking-tighter leading-none">Join the Waitlist</h2>
               <p className="text-slate-400 text-3xl font-medium mb-24 max-w-3xl mx-auto leading-relaxed">
@@ -435,24 +421,17 @@ const App: React.FC = () => {
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-20 py-9 bg-brand-primary text-white rounded-[3rem] font-black text-2xl hover:bg-brand-dark transition-all duration-500 shadow-3xl active:scale-95 disabled:opacity-50"
+                    className="px-20 py-9 bg-brand-primary text-white rounded-[3rem] font-black text-2xl hover:bg-brand-dark transition-all duration-500 disabled:opacity-50"
                   >
                     {isSubmitting ? 'Submitting...' : 'Apply Now'}
                   </button>
                 </form>
               ) : (
-                <div className="bg-brand-primary/10 border-2 border-brand-primary/30 rounded-[4rem] p-20 animate-fade-in">
-                  <div className="w-24 h-24 bg-brand-primary rounded-full flex items-center justify-center mx-auto mb-10 shadow-3xl">
-                    <Shield className="w-12 h-12 text-white" />
-                  </div>
+                <div className="bg-brand-primary/10 border-2 border-brand-primary/30 rounded-[4rem] p-20">
                   <h3 className="text-5xl font-black text-white mb-6">Application Received</h3>
                   <p className="text-slate-400 text-2xl font-medium">You've been added to our priority waitlist. We'll contact you soon.</p>
                 </div>
               )}
-              
-              <p className="mt-20 text-slate-500 text-lg font-black tracking-[0.4em] uppercase">
-                Secure. Encrypted. 100% Privacy Focused.
-              </p>
             </div>
           </div>
         </div>
@@ -463,20 +442,17 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-8">
           <div className="flex flex-col lg:flex-row justify-between items-start gap-32 pb-32 border-b border-slate-100">
             <div className="flex flex-col items-start gap-16 max-w-lg">
-              <button onClick={() => scrollTo('#')} className="h-14 w-auto hover:scale-105 active:scale-95 transition-transform">
+              <button onClick={() => scrollTo('#')} className="h-14 w-auto hover:scale-105 transition-transform flex items-center">
                 <H2Logo className="h-full w-auto" />
               </button>
               <p className="text-brand-accent text-3xl font-medium leading-relaxed">
                 Safety without compromise. Dignity without surveillance. Supporting families through innovation and localized intelligence.
               </p>
             </div>
-            
-            {/* Navigation/Legal/Global section removed previously */}
           </div>
           
           <div className="pt-24 flex flex-col md:flex-row justify-between items-center gap-16">
             <p className="text-brand-accent text-xl font-bold tracking-tight">© 2026 H2 AI LAB. All rights reserved.</p>
-            {/* Social links (Twitter, LinkedIn, Contact) removed as requested */}
           </div>
         </div>
       </footer>
